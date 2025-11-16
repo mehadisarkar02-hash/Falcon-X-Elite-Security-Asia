@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Falcon-X Elite Security Asia | Silent. Swift. Secure</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@300;500&family=Share+Tech+Mono&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+
+  <body>
+    <!-- Floating Particles -->
+    <div class="particles" id="particles"></div>
+
+    <!-- Celebration Container -->
+    <div class="celebration" id="celebration"></div>
+
+    <!-- Hidden Navigation -->
+    <nav class="hidden-nav">
+      <div class="nav-icon" data-title="FESA Home">
+        <i class="fas fa-home"></i>
+      </div>
+      <div class="nav-icon" data-title="FESA Profile">
+        <i class="fas fa-user-secret"></i>
+      </div>
+      <div class="nav-icon" data-title="Operation Timeline">
+        <i class="fas fa-stream"></i>
+      </div>
+      <div class="nav-icon" data-title="FESA Skillset">
+        <i class="fas fa-cogs"></i>
+      </div>
+      <div class="nav-icon" data-title="Missions">
+        <i class="fas fa-briefcase"></i>
+      </div>
+      <div class="nav-icon" data-title="Reviews">
+        <i class="fas fa-quote-right"></i>
+      </div>
+      <div class="nav-icon" data-title="Secure Contact">
+        <i class="fas fa-terminal"></i>
+      </div>
+    </nav>
+
+    <!-- Easter Egg Trigger -->
+    <div class="easter-egg">
+      <i class="fas fa-question"></i>
+    </div>
+
+    <!-- Secret Modal -->
+    <div class="secret-modal">
+      <div class="modal-content">
+        <div class="close-modal">
+          <i class="fas fa-times"></i>
+        </div>
+        <h2>FESA Unlocked</h2>
+        <p>
+          You've discovered Falcon-X Elite Security Asia – a silent, swift, and secure cyber guardian!
+        </p>
+        <p>
+          Our dedication to precision, confidentiality, and innovation drives every mission we undertake.
+        </p>
+        <p class="glitch" data-text="Congratulations!">Welcome, Agent!!</p>
+        <div class="details-btn-container">
+          <button class="project-details-btn" id="secret-close">
+            Continue Exploring
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Access Denied Modal -->
+    <div class="access-modal">
+      <div class="access-content">
+        <h2 class="access-title">ACCESS DENIED</h2>
+        <p class="access-text">
+          You are not authorized to access this area.<br />Only 
+          verified FESA agents may proceed.
+        </p>
+        <button class="access-btn">Acknowledge</button>
+      </div>
+    </div>
+
+    <!-- Hidden Password Section -->
+    <div class="hidden-section" id="password-section">
+      <div class="hidden-section-content">
+        <h2>Restricted Access</h2>
+        <p>Enter the FESA clearance code to proceed:</p>
+        <input
+          type="password"
+          class="password-input"
+          placeholder="Enter code"
+        />
+        <p class="password-hint">
+          Hint: Contact the FESA command center to obtain your clearance code
+        </p>
+        <div>
+          <button class="submit-btn" id="submit-password">Submit</button>
+          <button class="project-details-btn" id="close-password">
+            Cancel
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Project Modals -->
+    <div class="project-modal" id="project1-modal">
+      <div class="modal-content">
+        <div class="close-modal">
+          <i class="fas fa-times"></i>
+        </div>
+        <h2 class="modal-title">Project Falcon-X</h2>
+        <p class="modal-desc">
+          A stealth platform for monitoring and 
+          securing digital infrastructure across Asia, powered by advanced AI and cryptographic protocols.
+        </p>
+        <ul class="modal-features">
+          <li>AI-driven cyber threat detection</li>
+          <li>Multi-layered encryption and secure communications</li>
+          <li>Real-time network monitoring</li>
+          <li>Advanced authentication & access control</li>
+        </ul>
+        <button class="project-details-btn close-btn">Close Project</button>
+      </div>
+    </div>
+
+    <div class="project-modal" id="project2-modal">
+      <div class="modal-content">
+        <div class="close-modal">
+          <i class="fas fa-times"></i>
+        </div>
+        <h2 class="modal-title">FESA SecureComm</h2>
+        <p class="modal-desc">
+          A state-of-the-art encrypted communication platform with self-destructing messages 
+          and decentralized architecture, ensuring maximum privacy for all operations.
+        </p>
+        <ul class="modal-features">
+          <li>End-to-end quantum encryption</li>
+          <li>Decentralized and secure message routing</li>
+          <li>Self-destructing messages with customizable timers</li>
+          <li>Zero data retention for complete confidentiality</li>
+        </ul>
+        <button class="project-details-btn close-btn">Close Project</button>
+      </div>
+    </div>
+
+    <div class="project-modal" id="project3-modal">
+      <div class="modal-content">
+        <div class="close-modal">
+          <i class="fas fa-times"></i>
+        </div>
+        <h2 class="modal-title">FESA Oblivion OS</h2>
+        <p class="modal-desc">
+          A highly secure operating system designed to 
+          leave no digital trace, equipped with advanced privacy features and anti-forensic capabilities.
+        </p>
+        <ul class="modal-features">
+          <li>Memory-only operation (no disk writing)</li>
+          <li>Integrated VPN and Tor routing</li>
+          <li>Automated digital footprint cleaning</li>
+          <li>Hardware-level encryption support</li>
+        </ul>
+        <button class="project-details-btn close-btn">Close Project</button>
+      </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section id="hero">
+      <div class="hero-content">
+        <h1 class="hero-title glitch" data-text="The Code Hides the Truth">
+          Silent. Swift. Secure.
+        </h1>
+        <p class="hero-subtitle typewriter">
+          Guarding the digital frontier, one mission at a time…
+        </p>
+        <button class="explore-btn">Join FESA</button>
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about">
+      <h2 class="section-title fade-in">Falcon-X Elite Security Asia (FESA)</h2>
+      <div class="about-content">
+        <div class="profile-img-container fade-in">
+          <img
+            class="profile-img"
+            src="https://i.postimg.cc/28Bjf1qw/IMG-20251112-WA0001.jpg"
+            alt="Profile Image"
+          />
+        </div>
+        <div class="bio-text fade-in">
+          <p>
+            In the shadows of the digital world, we stand vigilant.
+            Silent. Swift. Secure. Every threat meets our precision.
+          </p>
+          <p>
+            Falcon-X Elite Security Asia (FESA) – Asia’s elite cyber guardians.
+            Moving unseen, striking fast, defending every digital frontier.
+          </p>
+          <p>
+            We are the silent sentinels of cyberspace, protecting data and privacy.
+            Silent. Swift. Secure. Our promise in every mission.
+          </p>
+          <p class="monospace">
+            > Current focus: Silent surveillance, swift response, and secure digital environments.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Timeline Section -->
+    <section id="timeline">
+      <h2 class="section-title fade-in">Journey of Excell</h2>
+      <div class="timeline-container fade-in">
+        <div class="timeline">
+          <!-- Timeline Connector -->
+          <div class="timeline-connector"></div>
+
+          <!-- Education Timeline Items -->
+          <div class="timeline-category">
+            <div class="timeline-category-icon">
+              <i class="fas fa-graduation-cap"></i>
+            </div>
+            <h3 class="timeline-category-title">Expertise & Training</h3>
+          </div>
+
+          <div class="timeline-item">
+            <div class="timeline-dot" data-year="2022"></div>
+            <div class="timeline-content">
+              <div class="timeline-date">2020 - 2022</div>
+              <h3 class="timeline-title">Master of Cyber Defense</h3>
+              <div class="timeline-place">Falcon-X Academy</div>
+              <p class="timeline-desc">
+                Specialized in cybersecurity, threat analysis, and ethical hacking. 
+                Graduated with distinction.
+              </p>
+              <div class="timeline-hover-content">
+                <p>
+                  Developed advanced intrusion detection techniques
+                </p>
+                <ul>
+                  <li>Thesis: "Building Stealth Defense Systems"</li>
+                  <li>Research in AI-driven threat prevention</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="timeline-item">
+            <div class="timeline-dot" data-year="2020"></div>
+            <div class="timeline-content">
+              <div class="timeline-date">2016 - 2020</div>
+              <h3 class="timeline-title">Bachelor of Cyber Engineering</h3>
+              <div class="timeline-place">Falcon-X Technical Institute</div>
+              <p class="timeline-desc">
+                Focused on digital defense, front-end security frameworks, and user-centric secure interfaces. 
+                Minor in ethical hacking.
+              </p>
+              <div class="timeline-hover-content">
+                <p>Explored the intersection of code and cyber strategy</p>
+                <ul>
+                  <li>Developed first cryptographic UI system for team operations</li>
+                  <li>Lead designer for Falcon-X internal secure platform</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- Experience Timeline Items -->
+          <div class="timeline-category">
+            <div class="timeline-category-icon">
+              <i class="fas fa-briefcase"></i>
+            </div>
+            <h3 class="timeline-category-title">Professional Journey</h3>
+          </div>
+
+          <div class="timeline-item">
+            <div class="timeline-dot" data-year="2022-P"></div>
+            <div class="timeline-content">
+              <div class="timeline-date">2022 - Present</div>
+              <h3 class="timeline-title">Lead Cyber Interface Engineer</h3>
+              <div class="timeline-place">Falcon-X Elite Security Asia (FESA) – Cyber Ops Division</div>
+              <p class="timeline-desc">
+                Architecting secure interaction systems and developing high-precision 
+                cyber defense dashboards. Leading the creation of advanced interfaces used for real-time threat monitoring and digital infiltration analysis.
+              </p>
+              <div class="timeline-hover-content">
+                <p>
+                  Currently researching AI-assisted threat visualization
+                </p>
+                <ul>
+                  <li>Designed FESA’s next-gen encryption-based control panel</li>
+                  <li>Developed high-stealth onboarding systems for internal agents</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="timeline-item">
+            <div class="timeline-dot" data-year="2020-22"></div>
+            <div class="timeline-content">
+              <div class="timeline-date">2020 - 2022</div>
+              <h3 class="timeline-title">Cyber Interface Developer</h3>
+              <div class="timeline-place">Falcon-X Elite Security Asia (FESA) – Digital Recon Unit.</div>
+              <p class="timeline-desc">
+                Developed high-performance secure dashboards and interactive systems focused on cyber-threat visibility 
+                and real-time response operations.
+              </p>
+              <div class="timeline-hover-content">
+                <p>
+                  Specialized in covert interaction design for stealth operations
+                </p>
+                <ul>
+                  <li>Engineered 15+ encrypted mission-control interfaces</li>
+                  <li>Introduced advanced “progressive security layering” patterns</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="timeline-item">
+            <div class="timeline-dot" data-year="2018-20"></div>
+            <div class="timeline-content">
+              <div class="timeline-date">2018 - 2020</div>
+              <h3 class="timeline-title">Secure UI Architect</h3>
+              <div class="timeline-place">FESA Creative Intelligence Lab</div>
+              <p class="timeline-desc">
+                Designed tactical interfaces used by FESA agents, balancing advanced 
+                usability with operational secrecy.
+              </p>
+              <div class="timeline-hover-content">
+                <p>
+                  Designed tactical interfaces used by FESA agents, balancing advanced usability with operational secrecy.
+                </p>
+                <ul>
+                  <li>Designed 20+ cyber-themed identity modules</li>
+                  <li>Created the first interactive “agent verification puzzle” system</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <style></style>
+
+    <!-- Skills Section -->
+<section id="skills">
+  <h2 class="section-title fade-in">Cyber Combat Skills</h2>
+
+  <div class="skills-container fade-in">
+
+    <!-- Cyber Interface Engineering -->
+    <div class="skill-category">
+      <h3 class="skill-category-title">Cyber Interface Engineering</h3>
+
+      <div class="skills-grid">
+
+        <div class="skill-item">
+          <div class="skill-header">
+            <span class="skill-name">HTML5 / CSS3</span>
+            <span class="skill-percentage">95%</span>
+          </div>
+          <div class="skill-bar">
+            <div class="skill-progress" data-width="95%"></div>
+          </div>
+          Encrypted UI frameworks and precision layout engineering
+        </div>
+
+        <div class="skill-item">
+          <div class="skill-header">
+            <span class="skill-name">JavaScript</span>
+            <span class="skill-percentage">90%</span>
+          </div>
+          <div class="skill-bar">
+            <div class="skill-progress" data-width="90%"></div>
+          </div>
+          Dynamic threat-response interfaces & interactive cyber modules
+        </div>
+
+        <div class="skill-item">
+          <div class="skill-header">
+            <span class="skill-name">React.js</span>
+            <span class="skill-percentage">85%</span>
+          </div>
+          <div class="skill-bar">
+            <div class="skill-progress" data-width="85%"></div>
+          </div>
+          Real-time dashboard architectures for mission operations
+        </div>
+
+        <div class="skill-item">
+          <div class="skill-header">
+            <span class="skill-name">Vue.js</span>
+            <span class="skill-percentage">80%</span>
+          </div>
+          <div class="skill-bar">
+            <div class="skill-progress" data-width="80%"></div>
+          </div>
+          Lightweight secure UI components for rapid deployments
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Tactical Design & Cyber Tools -->
+    <div class="skill-category">
+      <h3 class="skill-category-title">Tactical Design & Cyber Tools</h3>
+
+      <div class="skills-grid">
+
+        <div class="skill-item">
+          <div class="skill-header">
+            <span class="skill-name">UI/UX Design</span>
+            <span class="skill-percentage">88%</span>
+          </div>
+          <div class="skill-bar">
+            <div class="skill-progress" data-width="88%"></div>
+          </div>
+          Stealth-focused user flows & covert interaction patterns
+        </div>
+
+        <div class="skill-item">
+          <div class="skill-header">
+            <span class="skill-name">Figma</span>
+            <span class="skill-percentage">92%</span>
+          </div>
+          <div class="skill-bar">
+            <div class="skill-progress" data-width="92%"></div>
+          </div>
+          High-fidelity prototypes for secure system interfaces
+        </div>
+
+        <div class="skill-item">
+          <div class="skill-header">
+            <span class="skill-name">Adobe Creative Suite</span>
+            <span class="skill-percentage">85%</span>
+          </div>
+          <div class="skill-bar">
+            <div class="skill-progress" data-width="85%"></div>
+          </div>
+          Cyber mission identity systems & encrypted visual assets
+        </div>
+
+        <div class="skill-item">
+          <div class="skill-header">
+            <span class="skill-name">WebGL / Three.js</span>
+            <span class="skill-percentage">75%</span>
+          </div>
+          <div class="skill-bar">
+            <div class="skill-progress" data-width="75%"></div>
+          </div>
+          3D threat visualization & immersive reconnaissance grids
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</section>
+
+    <!-- Portfolio Section -->
+<section id="portfolio">
+  <h2 class="section-title fade-in">FESA Special Operations</h2>
+  <div class="projects-grid">
+    
+    <div class="project-card fade-in">
+      <div class="project-content">
+        <h3 class="project-title">Cyber Shield v1</h3>
+        <p class="project-desc">
+          Advanced threat-detection system built for Falcon-X Elite Security Asia.
+        </p>
+        <button class="project-details-btn detail-btn" data-modal="project1-modal">
+          View Details
+        </button>
+      </div>
+    </div>
+
+    <div class="project-card fade-in" data-modal="project2-modal">
+      <div class="project-content">
+        <h3 class="project-title">FESA Stealth Network</h3>
+        <p class="project-desc">
+          Encrypted comm-net for secure team communication and zero-trace messaging.
+        </p>
+        <button class="project-details-btn detail-btn" data-modal="project2-modal">
+          View Details
+        </button>
+      </div>
+    </div>
+
+    <div class="project-card fade-in" data-modal="project3-modal">
+      <div class="project-content">
+        <h3 class="project-title">Phantom OS</h3>
+        <p class="project-desc">
+          A custom privacy-first operating layer engineered for FESA operations.
+        </p>
+        <button class="project-details-btn detail-btn" data-modal="project3-modal">
+          View Details
+        </button>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+    <!-- Testimonials Section -->
+<section id="testimonials">
+  <h2 class="section-title fade-in">Voices from the Network</h2>
+  <div class="testimonials-container fade-in">
+    <div class="testimonials-slider">
+
+      <div class="testimonial-item">
+        <div class="testimonial-content">
+          <p>
+            FESA এর সাথে কাজ করা মানে সাইবার সিকিউরিটির নতুন মাত্রা দেখা।
+            তাদের দ্রুততা, নির্ভুলতা আর স্টেলথ — সত্যিই অনন্য।
+          </p>
+        </div>
+        <div class="testimonial-author">
+          <div class="author-image"></div>
+          <div class="author-details">
+            <h4>Md Mehadi Sarkar</h4>
+            <p>Cyber Analyst, Nexus Core</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial-item">
+        <div class="testimonial-content">
+          <p>
+            Falcon-X Elite Security Asia আমাদের ডিজিটাল অবকাঠামোকে এমনভাবে 
+            সুরক্ষিত করেছে যেন ছায়ার আড়ালে এক অদৃশ্য ঢাল।
+          </p>
+        </div>
+        <div class="testimonial-author">
+          <div class="author-image"></div>
+          <div class="author-details">
+            <h4>REZA </h4>
+            <p>Security Lead, Shadow Systems</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial-item">
+        <div class="testimonial-content">
+          <p>
+            “Silent. Swift. Secure.” — শুধু স্লোগান না, FESA টিম সত্যিকারের
+            প্রমাণ করে দেখিয়েছে এই লেভেলের প্রফেশনালিজম।
+          </p>
+        </div>
+        <div class="testimonial-author">
+          <div class="author-image"></div>
+          <div class="author-details">
+            <h4>Arif Rahman</h4>
+            <p>Founder, Enigma Labs</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="testimonials-nav">
+      <button class="testimonial-prev">
+        <i class="fas fa-chevron-left"></i>
+      </button>
+      <button class="testimonial-next">
+        <i class="fas fa-chevron-right"></i>
+      </button>
+    </div>
+  </div>
+</section>
+
+    <!-- Contact Section -->
+<section id="contact">
+  <h2 class="section-title fade-in">Initiate Secure Transmission</h2>
+
+  <div class="terminal fade-in">
+    <div class="transmission-overlay" id="transmission-overlay">
+      <div class="transmission-content">
+        <h3>FESA SECURE LINK ACTIVE</h3>
+        <div class="transmission-progress">
+          <div class="transmission-progress-bar" id="progress-bar"></div>
+        </div>
+        <p class="monospace" id="transmission-text">
+          Verifying encrypted handshake...
+        </p>
+
+        <div class="secret-code-reveal" id="secret-code-reveal" style="display: none">
+          <p>Authorization Code: <span class="monospace">FESA-2025-ENCRYPT</span></p>
+          <p>Use this ID to unlock classified modules.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="terminal-header">
+      <div class="terminal-title">fesa_connection.sys</div>
+      <div class="terminal-controls">
+        <div class="control close"></div>
+        <div class="control minimize"></div>
+        <div class="control maximize"></div>
+      </div>
+    </div>
+
+    <div class="terminal-body">
+      <p class="monospace">Initiating Falcon-X secure protocol...</p>
+      <p class="monospace">Encryption Status: Stable [✓]</p>
+      <p class="monospace">Input your credentials:</p>
+
+      <div class="input-line">
+        <span class="prompt">> </span>
+        <input type="text" class="terminal-input" placeholder="Your name" id="contact-name" />
+      </div>
+
+      <div class="input-line">
+        <span class="prompt">> </span>
+        <input type="email" class="terminal-input" placeholder="Your email" id="contact-email" />
+      </div>
+
+      <div class="input-line">
+        <span class="prompt">> </span>
+        <input type="text" class="terminal-input" placeholder="Message" id="contact-message" />
+      </div>
+    </div>
+
+    <button class="submit-btn" id="transmit-btn">Transmit Securely</button>
+  </div>
+</section>
+
+<script src="script.js"></script>
+  </body>
+              </html>
