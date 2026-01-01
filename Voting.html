@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FESA | Advanced Voting Shield</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@500;600;700&display=swap');
+        
+        body { 
+            background: #02040a; color: #fff; font-family: 'Rajdhani', sans-serif;
+            background-image: radial-gradient(circle at 50% 10%, #0d1221 0%, #02040a 100%);
+            min-height: 100vh; overflow-x: hidden;
+        }
+        .fesa-font { font-family: 'Orbitron', sans-serif; }
+        
+        /* Topic Glow Effect */
+        .topic-glow {
+            color: #fff; text-shadow: 0 0 10px rgba(59, 130, 246, 0.8), 0 0 20px rgba(59, 130, 246, 0.5);
+            background: linear-gradient(90deg, #3b82f6, #60a5fa); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+
+        /* Card Animation for Sorting */
+        #vote-grid { display: grid; transition: all 0.8s ease-in-out; }
+        .arena-card {
+            background: rgba(13, 17, 23, 0.8);
+            border: 1px solid rgba(59, 130, 246, 0.1);
+            backdrop-filter: blur(10px);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .winner-rank { border: 1px solid #3b82f6 !important; box-shadow: 0 0 20px rgba(59, 130, 246, 0.2); background: rgba(30, 41, 59, 0.6); }
+
+        /* Timer Style */
+        .digital-timer {
+            font-family: 'Orbitron', sans-serif;
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            box-shadow: inset 0 0 15px rgba(239, 68, 68, 0.1);
+        }
+
+        .bar-fill { height: 100%; transition: width 1s ease; border-radius: 10px; }
+    </style>
+</head>
+<body class="py-10 px-4">
+
+    <div class="max-w-6xl mx-auto">
+        <div class="flex flex-col items-center mb-12">
+            <div class="flex items-center gap-3 mb-2">
+                <i class="fas fa-shield-halved text-blue-500 text-3xl animate-pulse"></i>
+                <h1 class="fesa-font text-5xl font-black tracking-tighter italic">FESA <span class="text-blue-500 text-3xl font-light">VOTING TOOL</span></h1>
+            </div>
+            <p class="text-gray-500 uppercase tracking-[10px] text-[10px]">Falcon-X Elite Security Asia</p>
+        </div>
+
+        <div class="bg-gray-900/30 border-y border-blue-900/30 py-8 mb-10 text-center relative">
+            <div class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[#02040a] px-4 text-blue-500 text-xs fesa-font tracking-widest uppercase">Election Topic</div>
+            <h2 class="topic-glow text-3xl md:text-5xl font-black italic uppercase leading-tight">
+                FESA-এর সেরা সাইবার সিকিউরিটি স্পেশালিস্ট কে?
+            </h2>
+        </div>
+
+        <div class="flex justify-center mb-12">
+            <div class="digital-timer px-10 py-3 rounded-xl text-center">
+                <p class="text-[10px] text-red-400 uppercase tracking-[3px] mb-1">ভোট গ্রহণের সময় বাকি</p>
+                <span id="timer" class="text-2xl md:text-3xl text-red-500 font-bold tracking-widest">00:59:59</span>
+            </div>
+        </div>
+
+        <div id="vote-grid" class="grid grid-cols-2 gap-4 md:gap-8">
+            </div>
+
+        <div id="result-board" class="mt-20 border-t border-blue-900/30 pt-10">
+            <div class="bg-gradient-to-b from-blue-900/10 to-transparent p-10 rounded-[3rem] border border-blue-500/10 text-center">
+                <div class="fesa-font text-blue-400 text-xs tracking-widest uppercase mb-4">Live Statistics</div>
+                <h3 class="text-4xl font-bold mb-8">ফলাফল ঘোষণা প্যানেল</h3>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="bg-black/40 p-6 rounded-2xl border border-blue-900/30">
+                        <p class="text-gray-500 text-xs uppercase mb-1">মোট ভোট সংখ্যা</p>
+                        <span id="total-votes" class="text-3xl font-bold text-blue-500">০</span>
+                    </div>
+                    <div class="bg-black/40 p-6 rounded-2xl border border-yellow-500/30 relative overflow-hidden">
+                        <div class="absolute -right-2 -top-2 text-yellow-500/10 text-5xl"><i class="fas fa-crown"></i></div>
+                        <p class="text-gray-500 text-xs uppercase mb-1">বর্তমানে শীর্ষে</p>
+                        <span id="top-candidate" class="text-2xl font-bold text-yellow-500 italic">---</span>
+                    </div>
+                    <div class="bg-black/40 p-6 rounded-2xl border border-blue-900/30">
+                        <p class="text-gray-500 text-xs uppercase mb-1">সিস্টেম স্ট্যাটাস</p>
+                        <span class="text-green-500 font-bold uppercase tracking-widest">সক্রিয় (Secured)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // প্রার্থী লিস্ট (সব ০ থেকে শুরু)
+        let candidates = [
+            { id: 1, name: "Zihad Khan", role: "Elite Analyst", votes: 0 },
+            { id: 2, name: "Ayaan Ahmed", role: "Cyber Ghost", votes: 0 },
+            { id: 3, name: "Sakib Pro", role: "Lead Developer", votes: 0 },
+            { id: 4, name: "Dark Knight", role: "Pen-Tester", votes: 0 },
+            { id: 5, name: "Null Byte", role: "Exploit Dev", votes: 0 },
+            { id: 6, name: "Cyber Sniper", role: "Defense Expert", votes: 0 },
+            { id: 7, name: "Captain FESA", role: "Commander", votes: 0 },
+            { id: 8, name: "Alpha One", role: "Sys Admin", votes: 0 },
+            { id: 9, name: "Binary Beast", role: "Reverse Eng", votes: 0 },
+            { id: 10, name: "X-Terminator", role: "Security Bot", votes: 0 }
+        ];
+
+        const SESSION_KEY = "fesa_master_session_2026";
+        let countdownTime = 3600; // ১ ঘণ্টা
+
+        function initTimer() {
+            const timerEl = document.getElementById('timer');
+            const interval = setInterval(() => {
+                let m = Math.floor(countdownTime / 60);
+                let s = countdownTime % 60;
+                timerEl.innerText = `00:${m < 10 ? '0'+m : m}:${s < 10 ? '0'+s : s}`;
+                if (countdownTime-- <= 0) {
+                    clearInterval(interval);
+                    timerEl.innerText = "সময় শেষ!";
+                    document.getElementById('vote-grid').style.pointerEvents = 'none';
+                }
+            }, 1000);
+        }
+
+        function updateUI() {
+            const grid = document.getElementById('vote-grid');
+            const totalVotes = candidates.reduce((a, b) => a + b.votes, 0);
+            
+            // সর্টিং লজিক: ভোট বেশি থাকলে উপরে আসবে
+            const sorted = [...candidates].sort((a, b) => b.votes - a.votes);
+            
+            grid.innerHTML = sorted.map((c, index) => {
+                const pct = totalVotes > 0 ? Math.round((c.votes / totalVotes) * 100) : 0;
+                const isLeader = index === 0 && totalVotes > 0;
+                
+                return `
+                    <div id="card-${c.id}" onclick="castVote(${c.id})" 
+                         class="arena-card p-5 rounded-3xl cursor-pointer relative ${isLeader ? 'winner-rank' : ''}">
+                        <div class="flex justify-between items-start mb-4">
+                            <span class="fesa-font font-black italic text-xl ${isLeader ? 'text-yellow-500' : 'text-blue-900'}">
+                                ${isLeader ? '<i class="fas fa-crown"></i>' : index + 1}
+                            </span>
+                            <span class="fesa-font text-blue-500 font-bold">${pct}%</span>
+                        </div>
+                        <div class="mb-4">
+                            <h4 class="text-xl md:text-2xl font-bold uppercase tracking-tighter">${c.name}</h4>
+                            <p class="text-blue-700 text-[10px] font-bold uppercase tracking-widest">${c.role}</p>
+                        </div>
+                        <div class="h-1 bg-black/50 rounded-full overflow-hidden">
+                            <div class="bar-fill bg-blue-600 shadow-[0_0_10px_#2563eb]" style="width: ${pct}%"></div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            // ফলাফল প্যানেল আপডেট
+            document.getElementById('total-votes').innerText = totalVotes;
+            document.getElementById('top-candidate').innerText = totalVotes > 0 ? sorted[0].name : "ভোটের প্রতীক্ষায়...";
+        }
+
+        function castVote(id) {
+            if (localStorage.getItem(SESSION_KEY)) {
+                alert("সিকিউরিটি এলার্ট: আপনি ইতিমধ্যে ভোট দিয়েছেন!");
+                return;
+            }
+            
+            const target = candidates.find(c => c.id === id);
+            target.votes++;
+            
+            confetti({
+                particleCount: 150, spread: 70, origin: { y: 0.6 },
+                colors: ['#3b82f6', '#ffffff', '#ef4444']
+            });
+
+            localStorage.setItem(SESSION_KEY, "true");
+            updateUI();
+        }
+
+        // Initialize
+        initTimer();
+        updateUI();
+    </script>
+</body>
+</html>
