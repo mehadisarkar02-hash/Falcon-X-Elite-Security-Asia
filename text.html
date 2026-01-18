@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>FESA | Falcon X Elite Security Asia</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;600&family=Outfit:wght@300;400;700;900&display=swap" rel="stylesheet">
+    
+    <script src='https://unpkg.com/tesseract.js@v2.1.0/dist/tesseract.min.js'></script>
+
+    <style>
+        :root {
+            --bg-dark: #020617;
+            --fesa-primary: #ef4444;   /* Elite Red */
+            --fesa-gold: #fbbf24;      /* Security Gold */
+            --glass: rgba(15, 23, 42, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --text-main: #f8fafc;
+        }
+
+        * {
+            margin: 0; padding: 0; box-sizing: border-box;
+            font-family: 'Outfit', 'Hind Siliguri', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(239, 68, 68, 0.1) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(251, 191, 36, 0.05) 0px, transparent 50%);
+            color: var(--text-main);
+            height: 100vh; overflow: hidden;
+        }
+
+        /* --- FESA Header --- */
+        .app-header {
+            height: 75px;
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0 20px;
+            background: rgba(2, 6, 23, 0.9);
+            border-bottom: 2px solid var(--fesa-primary);
+            z-index: 100;
+        }
+
+        .logo-box { display: flex; align-items: center; gap: 12px; }
+        .logo-box i { color: var(--fesa-primary); font-size: 1.8rem; }
+        
+        .team-title { line-height: 1; }
+        .team-title h1 { font-size: 1rem; font-weight: 900; letter-spacing: 1px; color: var(--text-main); }
+        .team-title span { font-size: 0.65rem; color: var(--fesa-gold); font-weight: 600; text-transform: uppercase; }
+
+        /* --- Layout --- */
+        .content-area { flex: 1; overflow-y: auto; padding: 20px; padding-bottom: 100px; }
+        
+        .tab-view { display: none; animation: fadeIn 0.3s ease-out; }
+        .tab-view.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: scale(0.98); } to { opacity: 1; transform: scale(1); } }
+
+        /* --- Fast Scanner Display --- */
+        .scan-container {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            height: 300px;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 20px;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+        }
+
+        #previewImg { width: 100%; height: 100%; object-fit: contain; display: none; z-index: 2; }
+
+        /* Rapid Scan Animation */
+        .laser {
+            position: absolute; width: 100%; height: 3px;
+            background: linear-gradient(to right, transparent, var(--fesa-primary), transparent);
+            box-shadow: 0 0 15px var(--fesa-primary);
+            top: 0; z-index: 10; display: none;
+            animation: fastScan 1.5s linear infinite;
+        }
+        @keyframes fastScan { 0% { top: 0%; } 100% { top: 100%; } }
+
+        /* --- Buttons --- */
+        .action-btn {
+            width: 100%; padding: 16px; border: none; border-radius: 12px;
+            font-size: 1rem; font-weight: 700; cursor: pointer;
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+            margin-bottom: 10px; transition: 0.2s;
+        }
+
+        .btn-fesa { 
+            background: var(--fesa-primary); color: white;
+            box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
+        }
+        .btn-fesa:active { transform: translateY(2px); }
+
+        /* --- Result Area --- */
+        textarea {
+            width: 100%; height: 350px; background: rgba(255,255,255,0.03);
+            border: 1px solid var(--glass-border); border-radius: 15px;
+            padding: 15px; color: #fff; font-size: 1.1rem; line-height: 1.6;
+            resize: none; outline: none;
+        }
+
+        /* --- Floating Nav --- */
+        .fesa-nav {
+            position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+            width: 90%; max-width: 400px; background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(15px); border: 1px solid var(--fesa-primary);
+            border-radius: 30px; display: flex; justify-content: space-around;
+            padding: 10px; z-index: 1000;
+        }
+
+        .nav-btn {
+            display: flex; flex-direction: column; align-items: center;
+            color: #64748b; font-size: 0.7rem; font-weight: 600; transition: 0.3s;
+        }
+
+        .nav-btn.active { color: var(--fesa-primary); }
+        .nav-btn i { font-size: 1.4rem; margin-bottom: 2px; }
+
+        /* --- Status Loader --- */
+        .fast-loader { display: none; margin-bottom: 15px; }
+        .bar-container { height: 4px; background: #1e293b; border-radius: 2px; overflow: hidden; }
+        .bar-fill { height: 100%; width: 0%; background: var(--fesa-gold); transition: width 0.1s; }
+
+    </style>
+</head>
+<body>
+
+    <header class="app-header">
+        <div class="logo-box">
+            <i class="fas fa-shield-halved"></i>
+            <div class="team-title">
+                <h1>FESA</h1>
+                <span>Falcon X Elite Security Asia</span>
+            </div>
+        </div>
+        <div onclick="window.open('https://t.me/darsul_hoq')" style="color: #0088cc; font-size: 1.4rem; cursor: pointer;">
+            <i class="fab fa-telegram"></i>
+        </div>
+    </header>
+
+    <main class="content-area">
+        
+        <div id="tab-scan" class="tab-view active">
+            <div class="scan-container" onclick="document.getElementById('fileInput').click()">
+                <div class="laser" id="laser"></div>
+                <img id="previewImg">
+                <div id="placeholder" style="text-align: center;">
+                    <i class="fas fa-bolt" style="font-size: 3rem; color: var(--fesa-gold); margin-bottom: 10px;"></i>
+                    <p style="color: var(--text-muted);">TAP TO LOAD SECURE FILE</p>
+                </div>
+            </div>
+            
+            <input type="file" id="fileInput" accept="image/*" hidden>
+
+            <div class="fast-loader" id="loader">
+                <div style="display: flex; justify-content: space-between; font-size: 0.75rem; margin-bottom: 5px;">
+                    <span id="statusTxt">FAST SCANNING...</span>
+                    <span id="progressTxt">0%</span>
+                </div>
+                <div class="bar-container"><div class="bar-fill" id="barFill"></div></div>
+            </div>
+
+            <button class="action-btn btn-fesa" onclick="fastProcess()">
+                <i class="fas fa-fingerprint"></i> INITIATE OCR SCAN
+            </button>
+        </div>
+
+        <div id="tab-result" class="tab-view">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                <h3 style="color: var(--fesa-gold);">SECURE DATA</h3>
+                <button onclick="copyData()" style="background: none; border: 1px solid var(--fesa-primary); color: white; padding: 5px 12px; border-radius: 8px; font-size: 0.8rem;">
+                    COPY TEXT
+                </button>
+            </div>
+            <textarea id="outputText" readonly></textarea>
+        </div>
+
+    </main>
+
+    <nav class="fesa-nav">
+        <div class="nav-btn active" onclick="switchTab('tab-scan', this)">
+            <i class="fas fa-qrcode"></i><span>SCANNER</span>
+        </div>
+        <div class="nav-btn" onclick="switchTab('tab-result', this)">
+            <i class="fas fa-database"></i><span>VAULT</span>
+        </div>
+    </nav>
+
+    <script>
+        const fileInput = document.getElementById('fileInput');
+        const previewImg = document.getElementById('previewImg');
+        const placeholder = document.getElementById('placeholder');
+        const loader = document.getElementById('loader');
+        const barFill = document.getElementById('barFill');
+        const statusTxt = document.getElementById('statusTxt');
+        const progressTxt = document.getElementById('progressTxt');
+        const laser = document.getElementById('laser');
+
+        fileInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (ev) => {
+                    previewImg.src = ev.target.result;
+                    previewImg.style.display = 'block';
+                    placeholder.style.display = 'none';
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // --- Optimized Fast OCR ---
+        async function fastProcess() {
+            if (!fileInput.files[0]) return;
+
+            loader.style.display = 'block';
+            laser.style.display = 'block';
+            
+            // Tesseract Worker Initialize (Fast Mode)
+            const worker = Tesseract.createWorker({
+                logger: m => {
+                    if (m.status === 'recognizing text') {
+                        const p = Math.round(m.progress * 100);
+                        barFill.style.width = p + '%';
+                        progressTxt.innerText = p + '%';
+                    }
+                }
+            });
+
+            await worker.load();
+            await worker.loadLanguage('ben+eng'); // Mixed language detection
+            await worker.initialize('ben+eng');
+            
+            // Fast Parameters
+            await worker.setParameters({
+                tessjs_create_hocr: '0',
+                tessjs_create_tsv: '0',
+            });
+
+            const { data: { text } } = await worker.recognize(previewImg.src);
+            
+            document.getElementById('outputText').value = text;
+            await worker.terminate();
+
+            loader.style.display = 'none';
+            laser.style.display = 'none';
+            switchTab('tab-result', document.querySelectorAll('.nav-btn')[1]);
+        }
+
+        function switchTab(tabId, el) {
+            document.querySelectorAll('.tab-view').forEach(t => t.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            document.querySelectorAll('.nav-btn').forEach(n => n.classList.remove('active'));
+            el.classList.add('active');
+        }
+
+        function copyData() {
+            const area = document.getElementById('outputText');
+            area.select();
+            document.execCommand('copy');
+            alert('FESA Secure Data Copied!');
+        }
+    </script>
+</body>
+</html>
