@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>FESA - High Secure Line</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Hind+Siliguri:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root { --primary: #00f2ff; --accent: #bc13fe; --gold: #ffcc00; --bg-dark: #05070a; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Hind Siliguri', sans-serif; }
+        
+        body { background: #000; color: #fff; height: 100dvh; overflow: hidden; display: flex; justify-content: center; }
+
+        .phone-container { width: 100%; max-width: 500px; height: 100%; background: var(--bg-dark); position: relative; display: flex; flex-direction: column; border: 1px solid #111; }
+
+        #identity-portal { position: fixed; inset: 0; z-index: 9999; background: #000; display: flex; justify-content: center; align-items: center; padding: 25px; }
+        .portal-content { width: 100%; text-align: center; background: rgba(0, 242, 255, 0.03); padding: 30px 20px; border-radius: 25px; border: 1.5px solid var(--primary); backdrop-filter: blur(15px); }
+        .portal-content i { font-size: 50px; color: var(--primary); margin-bottom: 15px; }
+        
+        /* ডেসক্রিপশন স্টাইল */
+        .portal-desc { font-size: 12px; color: #aaa; line-height: 1.6; margin-bottom: 20px; text-align: left; background: rgba(255,255,255,0.05); padding: 12px; border-radius: 10px; border-left: 2px solid var(--primary); }
+
+        header { padding: 12px 18px; background: rgba(0,0,0,0.9); border-bottom: 1px solid #222; display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; }
+        
+        .chat-area { flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px; background: url('https://www.transparenttextures.com/patterns/carbon-fibre.png'); }
+
+        .msg-wrapper { display: flex; flex-direction: column; max-width: 85%; animation: slideUp 0.3s ease; }
+        .u-wrap { align-self: flex-end; } .a-wrap { align-self: flex-start; }
+        @keyframes slideUp { from { transform: translateY(10px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+        .bubble { padding: 10px 14px; border-radius: 15px; font-size: 13.5px; border: 1.2px solid; line-height: 1.5; word-wrap: break-word; }
+        .u-bubble { background: rgba(0, 242, 255, 0.05); border-color: var(--primary); border-bottom-right-radius: 2px; }
+        .a-bubble { background: rgba(188, 19, 254, 0.05); border-color: var(--accent); border-bottom-left-radius: 2px; }
+
+        .status-info { font-size: 9px; margin-top: 3px; color: #666; display: flex; align-items: center; gap: 4px; }
+        .user-tag { font-size: 10px; margin-bottom: 3px; font-weight: 600; display: flex; gap: 5px; }
+        .ceo-badge { background: var(--gold); color: #000; font-size: 8px; padding: 1px 4px; border-radius: 3px; font-family: 'Orbitron'; font-weight: 700; }
+
+        .footer { padding: 12px; background: #000; border-top: 1px solid #222; display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+        .input-box { flex: 1; background: #111; border: 1px solid #333; padding: 12px 15px; border-radius: 25px; color: #fff; outline: none; font-size: 14px; }
+        .send-btn { color: var(--primary); border: none; background: none; font-size: 20px; cursor: pointer; }
+
+        .reset-btn { background: rgba(255,0,0,0.1); border: 1px solid #ff4444; color: #ff4444; padding: 4px 10px; border-radius: 6px; font-size: 10px; cursor: pointer; font-weight: bold; }
+        .stylish-welcome { font-size: 14px; border-left: 3px solid var(--gold); padding-left: 10px; margin: 5px 0; color: #eee; }
+        .ceo-name { color: var(--gold); font-family: 'Orbitron'; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+<div class="phone-container">
+    <div id="identity-portal">
+        <div class="portal-content">
+            <i class="fas fa-fingerprint"></i>
+            <h2 style="font-family: 'Orbitron'; color: var(--primary); margin-bottom: 10px;">FESA CHAT CEO</h2>
+            
+            <div class="portal-desc">
+                🛡️ এটি একটি সুরক্ষিত এনক্রিপ্টেড লাইন। <br>
+                👤 CEO-র সাথে কথা বলতে আপনার নাম প্রদান করুন। <br>
+                🕒 আপনার চ্যাট হিস্ট্রি এই ডিভাইসে সংরক্ষিত থাকবে। <br>
+                ⚠️ অবৈধ ফাইল আদান-প্রদান কঠোরভাবে নিষিদ্ধ।
+            </div>
+
+            <input type="text" id="name-input" class="input-box" style="width: 100%; text-align: center; margin-bottom: 20px;" placeholder="আপনার নাম লিখুন...">
+            <button onclick="startApp()" style="width:100%; padding:15px; border-radius:12px; background:var(--primary); color:#000; font-weight:bold; font-family:'Orbitron'; cursor:pointer;">CONNECT</button>
+        </div>
+    </div>
+
+    <header>
+        <div style="display: flex; align-items: center; gap: 10px;">
+            <div style="width: 32px; height: 32px; background: var(--primary); border-radius: 8px; display: flex; justify-content: center; align-items: center; font-weight: bold; color:#000; font-family:'Orbitron';">F</div>
+            <div>
+                <h4 style="font-size: 12px; font-family: 'Orbitron';">MD MEHADI SARKAR</h4>
+                <p style="font-size: 8px; color: #0f0;">● SECURE TERMINAL</p>
+            </div>
+        </div>
+        <button class="reset-btn" onclick="resetAll()">RESET</button>
+    </header>
+
+    <div class="chat-area" id="chat-box"></div>
+
+    <div class="footer">
+        <label for="file-up" style="color: var(--primary); cursor: pointer;"><i class="fas fa-camera"></i></label>
+        <input type="file" id="file-up" style="display: none;" accept="image/*" onchange="sendPhoto(this)">
+        <input type="text" id="msg-input" class="input-box" placeholder="বার্তা লিখুন..." onkeypress="if(event.key==='Enter') sendText()">
+        <button class="send-btn" onclick="sendText()"><i class="fas fa-paper-plane"></i></button>
+    </div>
+</div>
+
+<script>
+    const BOT_TOKEN = '8082719585:AAGz0MFdadIquaP8grnFNbIqpk3iC8lUgPU';
+    const CHAT_ID = '8515598739';
+    let user = localStorage.getItem('fesa_user_final');
+
+    // চ্যাট হিস্ট্রি লোড করা
+    window.onload = function() {
+        const savedChat = localStorage.getItem('fesa_chat_history');
+        if (savedChat) {
+            document.getElementById('chat-box').innerHTML = savedChat;
+            const box = document.getElementById('chat-box');
+            box.scrollTop = box.scrollHeight;
+        }
+        if(user) document.getElementById('identity-portal').style.display = 'none';
+    };
+
+    function startApp() {
+        const n = document.getElementById('name-input').value.trim();
+        if(n.length < 2) return alert("নাম লিখুন।");
+        localStorage.setItem('fesa_user_final', n);
+        user = n;
+        document.getElementById('identity-portal').style.display = 'none';
+        
+        const welcome = `<div class="stylish-welcome">আসসালামু আলাইকুম <strong>${user}</strong>! আমি <span class="ceo-name">MD Mehadi Sarkar</span> (CEO, FalconXAsia) বলছি। আপনার বার্তাটি নিচে লিখুন।</div>`;
+        addBubble(welcome, 'a-wrap');
+        notifyBot(`🚨 *NEW CONNECTION*\n👤 User: ${user}`);
+    }
+
+    function saveChat() {
+        const chatContent = document.getElementById('chat-box').innerHTML;
+        localStorage.setItem('fesa_chat_history', chatContent);
+    }
+
+    function addBubble(content, type, isImg = false) {
+        const box = document.getElementById('chat-box');
+        const isUser = type === 'u-wrap';
+        const msgId = 'm' + Date.now();
+        let body = isImg ? `<img src="${content}" style="max-width:100%; border-radius:10px;">` : content;
+
+        const html = `
+            <div class="msg-wrapper ${type}" id="${msgId}">
+                <div class="user-tag" style="justify-content: ${isUser ? 'flex-end' : 'flex-start'}">
+                    ${isUser ? user : 'MD MEHADI SARKAR <span class="ceo-badge">CEO</span>'}
+                </div>
+                <div class="bubble ${isUser ? 'u-bubble' : 'a-bubble'}">${body}</div>
+                ${isUser ? `<div class="status-info" id="s-${msgId}">Sent ✓</div>` : ''}
+            </div>`;
+        box.insertAdjacentHTML('beforeend', html);
+        box.scrollTo({ top: box.scrollHeight, behavior: 'smooth' });
+        saveChat(); // মেসেজ যোগ হওয়ার পর সেভ করা
+        return msgId;
+    }
+
+    async function sendText() {
+        const inp = document.getElementById('msg-input');
+        const txt = inp.value.trim();
+        if(!txt) return;
+        const id = addBubble(txt, 'u-wrap');
+        inp.value = "";
+
+        try {
+            await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ 
+                    chat_id: CHAT_ID, 
+                    text: `📩 NEW MESSAGE\n👤 From: ${user}\n💬 Msg: ${txt}` 
+                })
+            });
+        } catch(e) { console.error(e); }
+    }
+
+    function notifyBot(text) {
+        fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ chat_id: CHAT_ID, text: text })
+        });
+    }
+
+    function sendPhoto(input) {
+        if(input.files[0]) {
+            const file = input.files[0];
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const id = addBubble(e.target.result, 'u-wrap', true);
+            };
+            reader.readAsDataURL(file);
+
+            const fd = new FormData();
+            fd.append('chat_id', CHAT_ID);
+            fd.append('photo', file);
+            fd.append('caption', `Photo from: ${user}`);
+            fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`, { method: 'POST', body: fd });
+        }
+    }
+
+    function resetAll() {
+        if(confirm("আপনি কি নিশ্চিত? এতে আপনার সব চ্যাট ডিলিট হয়ে যাবে।")) {
+            localStorage.clear();
+            location.reload();
+        }
+    }
+
+    let lastId = 0;
+    setInterval(async () => {
+        try {
+            const res = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/getUpdates?offset=${lastId + 1}`);
+            const data = await res.json();
+            if(data.result) {
+                data.result.forEach(u => {
+                    lastId = u.update_id;
+                    if(u.message && u.message.text && !u.message.text.includes("📩 NEW MESSAGE")) {
+                        addBubble(u.message.text, 'a-wrap');
+                    }
+                });
+            }
+        } catch(e) {}
+    }, 3000);
+</script>
+</body>
+</html>
