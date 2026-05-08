@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FESA | Secure Decryption Terminal</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #ff3c00; /* Ember Giant Red */
+      --neon-blue: #00f2ff; 
+      --bg-dark: #010101;
+      --card-bg: rgba(5, 5, 5, 0.95);
+      --border-glow: 0 0 15px rgba(255, 60, 0, 0.3);
+    }
+    
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Rajdhani', sans-serif; }
+    
+    body {
+      color: #fff;
+      background: var(--bg-dark);
+      min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      overflow-x: hidden;
+      background-image: radial-gradient(circle at 50% 50%, #0a0a0a, #000);
+    }
+
+    /* Scanning Background */
+    body::before {
+      content: "";
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: repeating-linear-gradient(0deg, rgba(255,255,255,0.01) 0px, rgba(255,255,255,0.01) 1px, transparent 1px, transparent 2px);
+      background-size: 100% 3px;
+      z-index: -1;
+    }
+
+    .wrapper {
+      position: relative; max-width: 600px; width: 95%;
+      padding: 40px 25px; background: var(--card-bg);
+      border: 1px solid rgba(255, 60, 0, 0.4);
+      box-shadow: var(--border-glow);
+      text-align: center; border-radius: 5px;
+      backdrop-filter: blur(10px);
+    }
+
+    /* Top Join Button */
+    .top-join {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 8px 20px; background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--neon-blue); color: var(--neon-blue);
+      text-decoration: none; font-family: 'Orbitron', sans-serif;
+      font-size: 0.7rem; font-weight: bold; margin-bottom: 25px;
+      transition: 0.3s; border-radius: 20px;
+    }
+    .top-join:hover { background: var(--neon-blue); color: #000; box-shadow: 0 0 15px var(--neon-blue); }
+
+    .fesa-logo { 
+      font-family: 'Orbitron', sans-serif; font-size: 2.3rem; font-weight: 900;
+      letter-spacing: 7px; color: var(--primary); 
+      text-shadow: 0 0 20px var(--primary); margin-bottom: 5px;
+    }
+    .slogan { 
+      font-family: 'Orbitron', sans-serif; font-size: 0.75rem; color: #888; 
+      letter-spacing: 4px; margin-bottom: 30px; text-transform: uppercase;
+    }
+
+    .input-box {
+      width: 100%; background: #000; border: 1px solid #222; padding: 20px;
+      color: var(--neon-blue); font-family: 'Orbitron', sans-serif;
+      font-size: 0.9rem; outline: none; transition: 0.3s;
+      border-right: 4px solid var(--primary); margin-bottom: 20px;
+    }
+    .input-box:focus { border-color: var(--neon-blue); box-shadow: 0 0 15px rgba(0, 242, 255, 0.2); }
+
+    .fesa-btn {
+      width: 100%; padding: 18px; background: transparent; border: 1px solid var(--primary);
+      color: var(--primary); font-family: 'Orbitron', sans-serif; 
+      font-size: 0.9rem; font-weight: 900; cursor: pointer; transition: 0.4s;
+    }
+    .fesa-btn:hover { background: var(--primary); color: #000; box-shadow: 0 0 30px var(--primary); }
+
+    /* Result Section */
+    .result-container { margin-top: 35px; display: none; text-align: left; animation: fadeIn 0.5s ease-in; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+    .status-bar {
+      background: #111; padding: 12px; border-left: 5px solid var(--primary);
+      font-family: 'Orbitron', sans-serif; font-size: 0.8rem; color: var(--primary);
+      margin-bottom: 15px; text-transform: uppercase;
+    }
+
+    video {
+      width: 100%; max-height: 450px; border: 1px solid #333; background: #000;
+      margin-bottom: 20px; box-shadow: 0 0 20px rgba(0,0,0,1);
+    }
+
+    .btn-group { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+
+    .dl-btn {
+      padding: 15px; background: #111; border: 1px solid #333;
+      color: #fff; font-size: 0.85rem; font-weight: 700; cursor: pointer; transition: 0.3s;
+    }
+    .dl-btn:hover { border-color: var(--neon-blue); color: var(--neon-blue); }
+
+    .bottom-join {
+      margin-top: 25px; display: flex; align-items: center; justify-content: center; gap: 10px;
+      padding: 15px; background: #fff; color: #000;
+      text-decoration: none; font-family: 'Orbitron', sans-serif;
+      font-size: 0.85rem; font-weight: 900;
+    }
+    .bottom-join:hover { background: var(--neon-blue); }
+
+    .fesa-loader { display: none; margin: 20px auto; width: 100%; height: 2px; background: #111; position: relative; overflow: hidden; }
+    .fesa-loader::after { content: ''; position: absolute; width: 30%; height: 100%; background: var(--primary); animation: load 1s infinite linear; }
+    @keyframes load { 0% { left: -30%; } 100% { left: 100%; } }
+
+    .footer { margin-top: 40px; font-size: 0.7rem; color: #444; border-top: 1px solid #222; padding-top: 20px; letter-spacing: 1px; }
+    .footer b { color: var(--primary); }
+  </style>
+</head>
+<body>
+
+<div class="wrapper">
+  <a href="https://www.tiktok.com/@ibn__awan" target="_blank" class="top-join">
+    <i class="fab fa-tiktok"></i> JOIN OFFICIAL TIKTOK ID
+  </a>
+
+  <div class="fesa-header">
+    <div class="fesa-logo">FALCON-X ELITE</div>
+    <div class="slogan">Silent. Swift. Secure.</div>
+  </div>
+  
+  <input type="text" id="targetUrl" class="input-box" placeholder="INPUT ENCRYPTED TIKTOK LINK" />
+  
+  <button class="fesa-btn" onclick="startExtraction()">
+    <i class="fas fa-terminal"></i> EXECUTE DECRYPTION
+  </button>
+
+  <div class="fesa-loader" id="loader"></div>
+
+  <div id="resultArea" class="result-container">
+    <div class="status-bar">
+      <i class="fas fa-shield-alt"></i> STATUS: <span id="status">DATA SECURED: ibn__awan</span>
+    </div>
+    
+    <video id="vPreview" controls></video>
+    
+    <div class="btn-group">
+      <button class="dl-btn" id="dlVidBtn"><i class="fas fa-video"></i> MP4 FORMAT</button>
+      <button class="dl-btn" id="dlAudBtn"><i class="fas fa-music"></i> MP3 FORMAT</button>
+    </div>
+
+    <a href="https://www.tiktok.com/@ibn__awan" target="_blank" class="bottom-join">
+      <i class="fab fa-tiktok"></i> JOIN OFFICIAL TIKTOK ID
+    </a>
+  </div>
+
+  <div class="footer">
+    DECRYPTING MEDIA VIA FESA SECURE PROTOCOL<br>
+    CHIEF OPERATOR: <b>MEHADI SARKAR</b> | CEO OF FESA<br>
+    &copy; 2026 FALCON-X ELITE SECURITY ASIA.
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+  async function forceDownload(url, filename, btnId) {
+    try {
+      const btn = document.getElementById(btnId);
+      const original = btn.innerHTML;
+      btn.innerHTML = '<i class="fas fa-sync fa-spin"></i> SAVING...';
+      const response = await fetch(url);
+      const blob = await response.blob();
+      const bUrl = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = bUrl; a.download = filename;
+      document.body.appendChild(a); a.click();
+      window.URL.revokeObjectURL(bUrl);
+      btn.innerHTML = original;
+    } catch (e) { window.open(url, '_blank'); }
+  }
+
+  async function startExtraction() {
+    const url = document.getElementById('targetUrl').value.trim();
+    const loader = document.getElementById('loader');
+    const result = document.getElementById('resultArea');
+
+    if(!url) return alert("CRITICAL ERROR: URL REQUIRED");
+
+    loader.style.display = 'block';
+    result.style.display = 'none';
+
+    try {
+      const params = new URLSearchParams();
+      params.set('url', url); params.set('hd', '1');
+      const response = await axios.post('https://tikwm.com/api/', params);
+      const data = response.data.data;
+
+      document.getElementById('status').innerText = `DATA SECURED: ${data.author.unique_id}`;
+      document.getElementById('vPreview').src = data.play;
+      document.getElementById('dlVidBtn').onclick = () => forceDownload(data.play, `FESA_VID_${data.id}.mp4`, 'dlVidBtn');
+      document.getElementById('dlAudBtn').onclick = () => forceDownload(data.music, `FESA_AUD_${data.id}.mp3`, 'dlAudBtn');
+      result.style.display = 'block';
+    } catch (err) {
+      alert("DECRYPTION ERROR: INVALID SOURCE.");
+    } finally { loader.style.display = 'none'; }
+  }
+</script>
+
+</body>
+</html>
